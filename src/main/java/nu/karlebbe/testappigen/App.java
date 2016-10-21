@@ -49,6 +49,7 @@ public class App
     	   
     	   HttpResponse<JsonNode> responseLocations;
     	   HttpResponse<JsonNode> responseTravels;
+    	   JSONArray responseArray = null;
    		   JsonNode responseJson = null;
    		   String departureName = null;
    		   String departureID = null;
@@ -85,9 +86,9 @@ public class App
    			   // Datum för resan
    			   responseTravels = getTravels(departureID, arrivalID, parameterDate);
    			   responseJson = responseTravels.getBody();
+   			   responseArray = responseJson.getArray();
    			   
-   			   System.out.println("responseJson, resor = " + responseJson.toString());
-   			   
+   			   System.out.println("responseJson, resor = " + responseArray.toString());
    			//Unirest.shutdown();
 //   		} catch (UnirestException e) {
    			// TODO Auto-generated catch block
@@ -103,8 +104,9 @@ public class App
    		   response.header("Access-Control-Allow-Origin", "*");
    		   response.status(200);
     	   
-   		   response.body(responseJson.toString()); 
-   		   
+//   		   response.body(responseJson.toString()); 
+   		   response.body(responseArray.toString());
+   		   response.type("application/json");
     	   return response.body(); // Skicka tillbaka svaret
 
        });
